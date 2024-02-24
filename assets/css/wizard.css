@@ -228,6 +228,8 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="password"],
+input[type="number"],
+textarea,
 select {
   border: 1px solid #1758c1;
   border-radius: 6px;

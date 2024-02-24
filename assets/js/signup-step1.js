@@ -112,6 +112,7 @@ let parameters = {
 };
 let strengthBar = document.getElementById("strength-bar");
 let msg = document.getElementById("msg");
+
 function strengthChecker() {
   let password = document.getElementById("password").value;
   parameters.letters = /[A-Za-z]+/.test(password) ? true : false;
@@ -280,3 +281,70 @@ function toggle() {
     return true;
   }
 }
+// Generic function for validating text-based inputs
+function validateText(inputElement, minLength, maxLength, regex) {
+  let inputValue = inputElement.value.trim();
+  let showError = `${inputElement.name}error`;
+
+  if (
+    inputValue.length < minLength ||
+    inputValue.length > maxLength ||
+    !regex.test(inputValue)
+  ) {
+    document.getElementById(showError).innerHTML = "&#10008; Invalid input";
+    document.getElementById(showError).style.color = "red";
+    inputElement.style.border = "1px solid red";
+    return false;
+  } else {
+    document.getElementById(showError).innerHTML = "&#10004; ok";
+    document.getElementById(showError).style.color = "#1758c1";
+    inputElement.style.border = "1px solid #1758c1";
+    return true;
+  }
+}
+
+// Phone number validation function
+function validatePhone(phoneInput) {
+  let requiredLength = 10;
+  let regex = /^\d+$/;
+
+  let inputValue = phoneInput.value.trim();
+  let showError = `${phoneInput.name}error`;
+
+  if (inputValue.length !== requiredLength || !regex.test(inputValue)) {
+    document.getElementById(showError).innerHTML =
+      "&#10008; Phone number must be 10 digits";
+    document.getElementById(showError).style.color = "red";
+    phoneInput.style.border = "1px solid red";
+    return false;
+  } else {
+    document.getElementById(showError).innerHTML = "&#10004; ok";
+    document.getElementById(showError).style.color = "#1758c1";
+    phoneInput.style.border = "1px solid #1758c1";
+    return true;
+  }
+}
+
+// Textarea validation function
+function validateTextarea(textareaInput) {
+  let minLength = 1; // Example minimum length for a textarea
+  let maxLength = 150; // Example maximum length for a textarea
+  let regex = /^[A-Za-z0-9 ]+$/; // Example regex for allowing alphanumeric characters and space
+
+  return validateText(textareaInput, minLength, maxLength, regex);
+}
+
+// Add event listeners for phone and textarea inputs
+document.getElementById("phone").onfocus = function () {
+  myFocus(this);
+};
+document.getElementById("phone").onkeyup = function () {
+  validatePhone(this);
+};
+
+document.getElementById("text-area").onfocus = function () {
+  myFocus(this);
+};
+document.getElementById("text-area").onkeyup = function () {
+  validateTextarea(this);
+};
